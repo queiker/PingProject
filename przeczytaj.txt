@@ -16,3 +16,9 @@ while (PR.Status.ToString().Equals("Success"))
 
 
 https://stackoverflow.com/questions/11800958/using-ping-in-c-sharp
+
+
+
+
+https://www.codeproject.com/Articles/43438/Connect-C-to-MySQL
+

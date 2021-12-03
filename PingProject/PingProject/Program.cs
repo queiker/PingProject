@@ -8,66 +8,56 @@ namespace PingProject
     {
         static void Main(string[] args)
         {
-
             CheckArgs(args);
-
-            
             Console.WriteLine("==========================");
-
-            
             List<Device> DeviceList = new List<Device>();
-            DeviceList.Add(new Device("127.0.0.1", "MyPc"));
-            DeviceList = AddDevice(DeviceList);
+            DeviceList.Add(new Device("127.0.0.1", "localhost"));
+            //DeviceList = AddDevice(DeviceList);  adding device with name and ip from user
             DeviceList = PingDevices(DeviceList);
-            DeviceList = PingDevices(DeviceList);
-            DeviceList = PingDevices(DeviceList);
-            PrintLogs(DeviceList);
+            
+            //PrintLogs(DeviceList);
 
             string key = "";
 
            while(key != "q" && key != "Q")
             {
+                key = PrintMainMenu();
                 switch (key)
                 {
-                    case "l":
-                        ReadLogs();
-                        key = PrintMainMenu();
-                        continue;
-                    case "L":
-                        ReadLogs();
-                        key = PrintMainMenu();
-                        continue;
-                    case "t":
-                        //Test();
-                        key = PrintMainMenu();
-                        continue;
-                    case "T":
-                        //Test();
-                        key = PrintMainMenu();
-                        continue;
-                    case "d":
-                        DevicesMenu();
+                    case "p" or "P":
+                        DeviceList = PingDevices(DeviceList);
                         continue;
 
-                    case "D":
-                        DevicesMenu();
+                    case "c" or "C":
+                        DeviceList = CreateDevice(DeviceList);
                         continue;
+                    case "r" or "R":
+                        ReadDevice(DeviceList);
+                        
+                        continue;
+                    case "u" or "U":
+                        UpdateDevice(DeviceList);
+                        continue;
+                    case "d" or "D":
+                        
+                        continue;
+                    case "l" or "L":
+                        ReadLogs();
+                        continue;
+                    
                     case "":
                         //do nothing
-                        key = PrintMainMenu();
-                        
                         continue;
                     default:
                         Console.WriteLine("Command not recognized.");
-                        key = PrintMainMenu();
                         continue;
-
-
                 }
-                
-
             }
 
+        }
+        public static string GetKey()
+        {
+            return Console.ReadLine();
         }
 
         public static void CheckArgs(string[] Args)
@@ -86,18 +76,20 @@ namespace PingProject
         {
             Console.WriteLine("----==== Ping project! ====----");
             Console.WriteLine("Main menu : ");
-            Console.WriteLine("Press l to read logs");
-            Console.WriteLine("Press d to change devices");
-            Console.WriteLine("Press t to test function");
-            Console.WriteLine("Press q to Quit");
+            Console.WriteLine("Press P to ping");
+            //CRUD
+            Console.WriteLine("Press C to create devices");
+            Console.WriteLine("Press R to read devices");
+            Console.WriteLine("Press U to update devices");
+            Console.WriteLine("Press D to delete devices");
+            
+            Console.WriteLine("Press L to read logs");
+            Console.WriteLine("Press Q to quit");
             return Console.ReadLine();
         }
 
 
-        public static void DevicesMenu()
-        {
-            throw new NotImplementedException();
-        }
+        
         public static void EmailLogs()
         {
             throw new NotImplementedException();
@@ -114,21 +106,47 @@ namespace PingProject
 
         
 
-        public static List<Device> AddDevice(List<Device> DL)
+        public static List<Device> CreateDevice(List<Device> DL)
         {
-
             string device_ip;
             string device_description;
             Console.WriteLine("Put device IP :");
             device_ip = Console.ReadLine();
             Console.WriteLine("Put device description :");
             device_description = Console.ReadLine();
-
-
             DL.Add(new Device(device_ip, device_description));
-
             return DL;
+        }
 
+        public static void ReadDevice(List<Device> DL)
+        {
+            int i = 1;
+            foreach (Device dev in DL)
+            {
+                Console.Write(i);
+                Console.Write(") ");
+                Console.Write(dev.Ip); 
+                Console.Write(" => "); 
+                Console.WriteLine(dev.Description);
+                i++;
+            }
+        }
+        public static void UpdateDevice(List<Device> DL)
+        {
+            ReadDevice(DL);
+            int device_nr;
+            string str_device_nr = Console.ReadLine() ;
+            device_nr = Convert.ToInt32(str_device_nr);
+
+            Console.Write(DL[device_nr - 1].Ip); 
+            Console.Write(" => "); 
+            Console.WriteLine(DL[device_nr - 1].Description);
+
+            Console.WriteLine("Put device IP :");
+            DL[device_nr - 1].Ip = Console.ReadLine();
+            Console.WriteLine("Put device description :");
+            DL[device_nr - 1].Description = Console.ReadLine();
+ 
         }
 
         public static List<Device> PingDevices(List<Device> DL)
