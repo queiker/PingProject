@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.IO;
+using System.Threading.Tasks;
 
 
 namespace PingProject
@@ -14,12 +18,12 @@ namespace PingProject
             DeviceList.Add(new Device("127.0.0.1", "localhost"));
             //DeviceList = AddDevice(DeviceList);  adding device with name and ip from user
             DeviceList = PingDevices(DeviceList);
-            
+
             //PrintLogs(DeviceList);
 
             string key = "";
 
-           while(key != "q" && key != "Q")
+            while (key != "q" && key != "Q")
             {
                 key = PrintMainMenu();
                 switch (key)
@@ -33,18 +37,24 @@ namespace PingProject
                         continue;
                     case "r" or "R":
                         ReadDevice(DeviceList);
-                        
+
                         continue;
                     case "u" or "U":
                         UpdateDevice(DeviceList);
                         continue;
                     case "d" or "D":
-                        
+                        DeviceList = DeleteDevice(DeviceList);
                         continue;
+
+                    case "save" or "SAVE":
+                        SaveDeviceList(DeviceList);
+                        continue;
+
                     case "l" or "L":
-                        ReadLogs();
+                        
+                        PrintLogs(DeviceList);
                         continue;
-                    
+
                     case "":
                         //do nothing
                         continue;
@@ -54,12 +64,9 @@ namespace PingProject
                 }
             }
 
-        }
-        public static string GetKey()
-        {
-            return Console.ReadLine();
-        }
 
+        }
+    
         public static void CheckArgs(string[] Args)
         {
             foreach (string arg in Args)
@@ -82,13 +89,33 @@ namespace PingProject
             Console.WriteLine("Press R to read devices");
             Console.WriteLine("Press U to update devices");
             Console.WriteLine("Press D to delete devices");
-            
+            //Save and Load
+            Console.WriteLine("Press save to save device list");
+            Console.WriteLine("Press load to load device list");
+
             Console.WriteLine("Press L to read logs");
             Console.WriteLine("Press Q to quit");
             return Console.ReadLine();
         }
 
-
+        public static void SaveDeviceList(List<Device> DL)
+        {
+            
+            string str_device = JsonSerializer.Serialize(DL);
+            //string folder = @"c:\";
+            string folder = System.IO.Directory.GetCurrentDirectory();
+            Console.WriteLine(str_device);
+            string path = @"\DevicesList.json";
+            using (StreamWriter file = new StreamWriter(folder + path))
+            {
+                file.Write(str_device);
+            }
+ 
+        }
+        public static void LoadDeviceList()
+        {
+            throw new NotImplementedException();
+        }
         
         public static void EmailLogs()
         {
@@ -98,13 +125,6 @@ namespace PingProject
         {
             throw new NotImplementedException();
         }
-
-        public static void ReadLogs()
-        {
-
-        }
-
-        
 
         public static List<Device> CreateDevice(List<Device> DL)
         {
@@ -134,6 +154,7 @@ namespace PingProject
         public static void UpdateDevice(List<Device> DL)
         {
             ReadDevice(DL);
+            Console.WriteLine("Put number of device to update:");
             int device_nr;
             string str_device_nr = Console.ReadLine() ;
             device_nr = Convert.ToInt32(str_device_nr);
@@ -149,6 +170,18 @@ namespace PingProject
  
         }
 
+        public static List<Device> DeleteDevice(List<Device> DL)
+        {
+            ReadDevice(DL);
+            Console.WriteLine("Put number of device to delete:");
+            int device_nr;
+            string str_device_nr = Console.ReadLine();
+            device_nr = Convert.ToInt32(str_device_nr);
+            DL.RemoveAt(device_nr - 1);
+
+            return DL;
+
+        }
         public static List<Device> PingDevices(List<Device> DL)
         {
             foreach (Device device in DL)
@@ -159,8 +192,6 @@ namespace PingProject
         }
         public static void PrintLogs(List<Device> DL)
         {
-            
-
             foreach (Device device in DL)
             {
                 Console.WriteLine("=============================");
@@ -169,12 +200,7 @@ namespace PingProject
                 {
                     Console.WriteLine(log.message + " - " + log.time.Hour.ToString() + ":" + log.time.Minute.ToString() + ":" + log.time.Second.ToString());
                 }
-
-
-
             }
-
-
         }
 
 

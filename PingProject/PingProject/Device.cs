@@ -20,31 +20,19 @@ namespace PingProject
         }
         public void PingDevice()
         {
-            
-
             Ping ping = new Ping();
             PingReply PR = ping.Send(Ip);
             Console.WriteLine("=========================================");
             Console.WriteLine(Ip + " - " + Description);
             Console.WriteLine(PR.Status.ToString());
-
             AddLog(PR.Status.ToString());
-
         }
-        
 
         public void AddLog(string message)
         {
-            
             ListLog.Add(new Log(message, Log.importance.OK));
-
-
-
         }
 
-        
-
-        
         public void ClearLogList()
         {
             throw new NotImplementedException();
