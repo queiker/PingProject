@@ -127,7 +127,15 @@ namespace PingProject
         
         public static void EmailLogs(string Message)
         {
-            //throw new NotImplementedException();
+            /*
+             * Żeby wysyłanie email działało na koncie gmail.com musi być wyłączona weryfikacja dwuetapowa
+             * i włączone akceptowanie urządzeń mniej bezpiecznych. 
+             * 
+             * 
+             * 
+             */
+
+
 
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
