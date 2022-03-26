@@ -1,0 +1,6 @@
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.pdb
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\clrcompression.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\clrjit.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\coreclr.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\mscordaccore.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.exe

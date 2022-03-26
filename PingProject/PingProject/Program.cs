@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Net;
 using Nest;
+using System.Threading;
 
 namespace PingProject
 {
@@ -17,9 +18,9 @@ namespace PingProject
             CheckArgs(args);
             Console.WriteLine("==========================");
             List<Device> DeviceList = new List<Device>();
-            DeviceList.Add(new Device("127.0.0.1", "localhost"));
+            //DeviceList.Add(new Device("127.0.0.1", "localhost"));
             //DeviceList = AddDevice(DeviceList);  adding device with name and ip from user
-            DeviceList = PingDevices(DeviceList);
+            //DeviceList = PingDevices(DeviceList);
 
             //PrintLogs(DeviceList);
 
@@ -56,8 +57,12 @@ namespace PingProject
                         
                         PrintLogs(DeviceList);
                         continue;
+                    case "carline" or "CARLINE":
+                        PingCarlineDevices();
+                        continue;
+                    
                     case "e" or "E":
-                        EmailLogs("LOGI");
+                        Email("PingProject LOG", "Test email Log OK");
                         continue;
 
 
@@ -78,10 +83,20 @@ namespace PingProject
             foreach (string arg in Args)
             {
                 Console.WriteLine(arg);
+                if (arg == "/carline" || arg == "/CARLINE")
+                {
+                    PingCarlineDevices();
+
+                }
+                    
                 if (arg == "/t" || arg == "/T")
                 {
                     Test();
                 }
+
+                
+
+
             }
         }
 
@@ -95,7 +110,8 @@ namespace PingProject
             Console.WriteLine("Press R to read devices");
             Console.WriteLine("Press U to update devices");
             Console.WriteLine("Press D to delete devices");
-            Console.WriteLine("Press E to email logs");
+            Console.WriteLine("Press E to test email");
+            Console.WriteLine("Press CARLINE to ping carline devices");
 
             //Save and Load
             Console.WriteLine("Press save to save device list");
@@ -125,14 +141,11 @@ namespace PingProject
             throw new NotImplementedException();
         }
         
-        public static void EmailLogs(string Message)
+        public static void Email(string Title, string Message)
         {
             /*
              * Żeby wysyłanie email działało na koncie gmail.com musi być wyłączona weryfikacja dwuetapowa
-             * i włączone akceptowanie urządzeń mniej bezpiecznych. 
-             * 
-             * 
-             * 
+             * i włączone "dostęp mniej bezpiecznych aplikacji" 
              */
 
 
@@ -140,7 +153,7 @@ namespace PingProject
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
                 //TODO: WPISAĆ POPRAWNE HASŁO
-                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "HASSEŁKO"),
+                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "HASEŁKO_TAJNE"),
                 EnableSsl = true,
                 Timeout = 5000,
 
@@ -148,7 +161,7 @@ namespace PingProject
             
             try
             {
-                client.Send("tradecomp.pl@gmail.com", "tradecomp.pl@gmail.com", "LOGI CARLINE", Message);
+                client.Send("tradecomp.pl@gmail.com", "tradecomp.pl@gmail.com", Title, Message);
             }
             catch(Exception ex)
             {
@@ -231,7 +244,76 @@ namespace PingProject
             }
             return DL;
         }
-        public static void PrintLogs(List<Device> DL)
+
+        public static void PingCarlineDevices()
+        {
+            List<Device> DL = new List<Device>();
+            DL.Add(new Device("192.168.1.14", "PLOTER HP"));
+            DL.Add(new Device("192.168.1.4", "DRUKARKA KONIKA"));
+            //DL.Add(new Device("127.0.0.1", "PĘTLA LOKALNA"));
+            
+
+            /*
+            DL.Add(new Device("127.0.0.1", "PĘTLA LOKALNA"));
+            DL.Add(new Device("192.168.1.13", "DRUKARKA OKI"));
+            */
+
+
+            while(PingError(DL) == false)
+            {
+                DL = PingDevices(DL);
+                Thread.Sleep(1800000);
+
+            }
+
+            EmailLogs(DL);
+
+
+        }
+
+        public static bool PingError(List<Device> DL)
+        {
+            bool ToReturn = false;
+            foreach(Device device in DL)
+            {
+                foreach (Log log in device.ListLog)
+                {
+                    // Success
+                    if ((log.message == "DestinationHostUnreachable") || (log.message == "TimedOut"))
+                    {
+                        ToReturn = true;
+                    }
+                }
+                
+            }
+            return ToReturn;
+        }
+
+
+
+        public static void EmailLogs(List<Device> DL)
+        {
+            string logs = "";
+
+            foreach (Device device in DL)
+            {
+
+                logs += "=============================\n";
+                logs += device.Ip + " - " + device.Description + "\n";
+
+                foreach (Log log in device.ListLog)
+                {
+                    logs += log.message + " - " + log.time.Hour.ToString() + ":" + log.time.Minute.ToString() + ":" + log.time.Second.ToString() + "\n" ;
+
+
+                }
+            }
+
+            Email("LOGI CARLINE", logs);
+
+        }
+        
+            public static void PrintLogs(List<Device> DL)
         {
             foreach (Device device in DL)
             {

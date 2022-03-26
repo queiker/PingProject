@@ -1,0 +1,7 @@
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.exe
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.deps.json
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.runtimeconfig.json
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\PingProject.pdb
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\Elasticsearch.Net.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\publish\Nest.dll
