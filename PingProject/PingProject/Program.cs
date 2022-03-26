@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.IO;
-using System.Threading.Tasks;
-
+using System.Net.Mail;
+using System.Net;
+using Nest;
 
 namespace PingProject
 {
@@ -12,6 +12,8 @@ namespace PingProject
     {
         static void Main(string[] args)
         {
+            
+
             CheckArgs(args);
             Console.WriteLine("==========================");
             List<Device> DeviceList = new List<Device>();
@@ -54,6 +56,10 @@ namespace PingProject
                         
                         PrintLogs(DeviceList);
                         continue;
+                    case "e" or "E":
+                        EmailLogs("LOGI");
+                        continue;
+
 
                     case "":
                         //do nothing
@@ -89,10 +95,12 @@ namespace PingProject
             Console.WriteLine("Press R to read devices");
             Console.WriteLine("Press U to update devices");
             Console.WriteLine("Press D to delete devices");
+            Console.WriteLine("Press E to email logs");
+
             //Save and Load
             Console.WriteLine("Press save to save device list");
             Console.WriteLine("Press load to load device list");
-
+            
             Console.WriteLine("Press L to read logs");
             Console.WriteLine("Press Q to quit");
             return Console.ReadLine();
@@ -117,9 +125,34 @@ namespace PingProject
             throw new NotImplementedException();
         }
         
-        public static void EmailLogs()
+        public static void EmailLogs(string Message)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            var client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                //TODO: WPISAĆ POPRAWNE HASŁO
+                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "HASSEŁKO"),
+                EnableSsl = true,
+                Timeout = 5000,
+
+            };
+            
+            try
+            {
+                client.Send("tradecomp.pl@gmail.com", "tradecomp.pl@gmail.com", "LOGI CARLINE", Message);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Console.WriteLine("Logs was sended at email");
+            
+
+
+
+
         }
         public static void SaveLogsToFile()
         {

@@ -5,7 +5,6 @@ C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\Pin
 C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\PingProject.dll
 C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\ref\PingProject.dll
 C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\PingProject.pdb
-C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.csproj.AssemblyReference.cache
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.AssemblyInfoInputs.cache
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.AssemblyInfo.cs
@@ -14,3 +13,7 @@ C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\Pin
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\ref\PingProject.dll
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.pdb
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.genruntimeconfig.cache
+C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.csprojAssemblyReference.cache
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\Elasticsearch.Net.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\Nest.dll
+C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.csproj.CopyComplete

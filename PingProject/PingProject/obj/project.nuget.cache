@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Ttl7rizGEM9wuooABdnfxB8xEo+IqyyGpZpqG1H0oWDrFBHBljXvahushRcqqvpEyAwsFXpSwDVZuMjAELjJxA==",
+  "dgSpecHash": "lkJLUUJRfCqDxv22dy4cggBXotiCIYo5J2hiL0dReqSGkxzvpqq77O/VprFr2gf1X/mrt7ANncsCOaL8ASDyvA==",
   "success": true,
   "projectFilePath": "C:\\Users\\queiker\\source\\PingProject\\PingProject\\PingProject\\PingProject.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\queiker\\.nuget\\packages\\elasticsearch.net\\7.17.0\\elasticsearch.net.7.17.0.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\microsoft.csharp\\4.6.0\\microsoft.csharp.4.6.0.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\nest\\7.17.0\\nest.7.17.0.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
