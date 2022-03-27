@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.IO;
 using System.Net.Mail;
 using System.Net;
-using Nest;
 using System.Threading;
 
 namespace PingProject
@@ -52,17 +50,24 @@ namespace PingProject
                     case "save" or "SAVE":
                         SaveDeviceList(DeviceList);
                         continue;
+                    
+                    case "load" or "LOAD":
+                        DeviceList = LoadDeviceList();
+                        continue;
 
                     case "l" or "L":
-                        
                         PrintLogs(DeviceList);
                         continue;
                     case "carline" or "CARLINE":
                         PingCarlineDevices();
                         continue;
                     
-                    case "e" or "E":
+                    case "testemail" or "TESTEMAIL":
                         Email("PingProject LOG", "Test email Log OK");
+                        continue;
+
+                    case "e" or "E":
+                        EmailLogs(DeviceList);
                         continue;
 
 
@@ -106,11 +111,13 @@ namespace PingProject
             Console.WriteLine("Main menu : ");
             Console.WriteLine("Press P to ping");
             //CRUD
-            Console.WriteLine("Press C to create devices");
+            Console.WriteLine("Press C to create / add devices");
             Console.WriteLine("Press R to read devices");
             Console.WriteLine("Press U to update devices");
             Console.WriteLine("Press D to delete devices");
-            Console.WriteLine("Press E to test email");
+
+            Console.WriteLine("Press E to email logs");
+            Console.WriteLine("Press TESTEMAIL to test email");
             Console.WriteLine("Press CARLINE to ping carline devices");
 
             //Save and Load
@@ -124,9 +131,7 @@ namespace PingProject
 
         public static void SaveDeviceList(List<Device> DL)
         {
-            
-            string str_device = JsonSerializer.Serialize(DL);
-            //string folder = @"c:\";
+            string str_device = Newtonsoft.Json.JsonConvert.SerializeObject(DL);
             string folder = System.IO.Directory.GetCurrentDirectory();
             Console.WriteLine(str_device);
             string path = @"\DevicesList.json";
@@ -136,9 +141,29 @@ namespace PingProject
             }
  
         }
-        public static void LoadDeviceList()
+        public static List<Device> LoadDeviceList()
         {
-            throw new NotImplementedException();
+            string folder = System.IO.Directory.GetCurrentDirectory();
+            string path = @"\DevicesList.json";
+            //string str_device = Newtonsoft.Json.JsonConvert.SerializeObject(DL);
+            string str_device = "";
+
+            using (StreamReader reader = new StreamReader(folder + path))
+            {
+                while (true)
+                {
+                    string line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        break;
+                    }
+                    str_device += line;
+                }
+            }
+            Console.Write(str_device);
+            List<Device> DL = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Device>>(str_device);
+            return DL;
+
         }
         
         public static void Email(string Title, string Message)
@@ -147,13 +172,10 @@ namespace PingProject
              * Żeby wysyłanie email działało na koncie gmail.com musi być wyłączona weryfikacja dwuetapowa
              * i włączone "dostęp mniej bezpiecznych aplikacji" 
              */
-
-
-
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
                 //TODO: WPISAĆ POPRAWNE HASŁO
-                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "HASEŁKO_TAJNE"),
+                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "Tajne_HASŁO"),
                 EnableSsl = true,
                 Timeout = 5000,
 
@@ -167,13 +189,7 @@ namespace PingProject
             {
                 Console.WriteLine(ex.Message);
             }
-
             Console.WriteLine("Logs was sended at email");
-            
-
-
-
-
         }
         public static void SaveLogsToFile()
         {
@@ -223,7 +239,6 @@ namespace PingProject
             DL[device_nr - 1].Description = Console.ReadLine();
  
         }
-
         public static List<Device> DeleteDevice(List<Device> DL)
         {
             ReadDevice(DL);
@@ -232,9 +247,7 @@ namespace PingProject
             string str_device_nr = Console.ReadLine();
             device_nr = Convert.ToInt32(str_device_nr);
             DL.RemoveAt(device_nr - 1);
-
             return DL;
-
         }
         public static List<Device> PingDevices(List<Device> DL)
         {
@@ -265,9 +278,7 @@ namespace PingProject
                 Thread.Sleep(1800000);
 
             }
-
             EmailLogs(DL);
-
 
         }
 
@@ -289,28 +300,19 @@ namespace PingProject
             return ToReturn;
         }
 
-
-
         public static void EmailLogs(List<Device> DL)
         {
             string logs = "";
-
             foreach (Device device in DL)
             {
-
                 logs += "=============================\n";
                 logs += device.Ip + " - " + device.Description + "\n";
-
                 foreach (Log log in device.ListLog)
                 {
                     logs += log.message + " - " + log.time.Hour.ToString() + ":" + log.time.Minute.ToString() + ":" + log.time.Second.ToString() + "\n" ;
-
-
                 }
             }
-
             Email("LOGI CARLINE", logs);
-
         }
         
             public static void PrintLogs(List<Device> DL)
@@ -325,27 +327,21 @@ namespace PingProject
                 }
             }
         }
-
-
         public static void Test()
         {
             Console.WriteLine("Welcome in PingProject");
-
             List<Device> DeviceList = new List<Device>();
             DeviceList.Add(new Device("127.0.0.1", "MyPc"));
             DeviceList.Add(new Device("192.168.1.99", "Wrong IP"));
             DeviceList.Add(new Device("192.168.1.1", "Router"));
-
             foreach (Device device in DeviceList)
             {
                 device.PingDevice();
             }
-
             foreach (Device device in DeviceList)
             {
                 device.PingDevice();
             }
-
             foreach (Device device in DeviceList)
             {
                 Console.WriteLine("=============================");
@@ -354,11 +350,7 @@ namespace PingProject
                 {
                     Console.WriteLine(log.message + " - " + log.time.Hour.ToString() + ":" + log.time.Minute.ToString() + ":" + log.time.Second.ToString());
                 }
-
-
-
             }
         }
-
     }
 }

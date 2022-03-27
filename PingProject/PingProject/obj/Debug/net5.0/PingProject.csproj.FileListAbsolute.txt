@@ -17,3 +17,4 @@ C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\Pin
 C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\Elasticsearch.Net.dll
 C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\Nest.dll
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Debug\net5.0\PingProject.csproj.CopyComplete
+C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Debug\net5.0\Newtonsoft.Json.dll
