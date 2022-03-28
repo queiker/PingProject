@@ -11,19 +11,18 @@ namespace PingProject
     {
         static void Main(string[] args)
         {
-            
+            //if CheckArgs false it mean that there was no arguments
+            if (!CheckArgs(args))
+            {
+                InteractiveMenu();
+            }
+        }
 
-            CheckArgs(args);
+        public static void InteractiveMenu()
+        {
             Console.WriteLine("==========================");
             List<Device> DeviceList = new List<Device>();
-            //DeviceList.Add(new Device("127.0.0.1", "localhost"));
-            //DeviceList = AddDevice(DeviceList);  adding device with name and ip from user
-            //DeviceList = PingDevices(DeviceList);
-
-            //PrintLogs(DeviceList);
-
             string key = "";
-
             while (key != "q" && key != "Q")
             {
                 key = PrintMainMenu();
@@ -50,7 +49,7 @@ namespace PingProject
                     case "save" or "SAVE":
                         SaveDeviceList(DeviceList);
                         continue;
-                    
+
                     case "load" or "LOAD":
                         DeviceList = LoadDeviceList();
                         continue;
@@ -61,7 +60,7 @@ namespace PingProject
                     case "carline" or "CARLINE":
                         PingCarlineDevices();
                         continue;
-                    
+
                     case "testemail" or "TESTEMAIL":
                         Email("PingProject LOG", "Test email Log OK");
                         continue;
@@ -69,8 +68,6 @@ namespace PingProject
                     case "e" or "E":
                         EmailLogs(DeviceList);
                         continue;
-
-
                     case "":
                         //do nothing
                         continue;
@@ -79,53 +76,49 @@ namespace PingProject
                         continue;
                 }
             }
-
-
         }
     
-        public static void CheckArgs(string[] Args)
+        public static bool CheckArgs(string[] Args)
         {
+            bool to_return = false;
+
             foreach (string arg in Args)
             {
+                to_return = true;
                 Console.WriteLine(arg);
                 if (arg == "/carline" || arg == "/CARLINE")
                 {
                     PingCarlineDevices();
-
                 }
                     
                 if (arg == "/t" || arg == "/T")
                 {
                     Test();
                 }
-
-                
-
-
             }
+            return to_return;
         }
-
         public static string PrintMainMenu()
         {
             Console.WriteLine("----==== Ping project! ====----");
             Console.WriteLine("Main menu : ");
-            Console.WriteLine("Press P to ping");
+            Console.WriteLine("Put P to ping");
             //CRUD
-            Console.WriteLine("Press C to create / add devices");
-            Console.WriteLine("Press R to read devices");
-            Console.WriteLine("Press U to update devices");
-            Console.WriteLine("Press D to delete devices");
+            Console.WriteLine("Put C to create / add devices");
+            Console.WriteLine("Put R to read devices");
+            Console.WriteLine("Put U to update devices");
+            Console.WriteLine("Put D to delete devices");
 
-            Console.WriteLine("Press E to email logs");
-            Console.WriteLine("Press TESTEMAIL to test email");
-            Console.WriteLine("Press CARLINE to ping carline devices");
+            Console.WriteLine("Put E to email logs");
+            Console.WriteLine("Put TESTEMAIL to test email");
+            Console.WriteLine("Put CARLINE to load, constantly ping and email logs with error");
 
             //Save and Load
-            Console.WriteLine("Press save to save device list");
-            Console.WriteLine("Press load to load device list");
+            Console.WriteLine("Put save to save device list");
+            Console.WriteLine("Put load to load device list");
             
-            Console.WriteLine("Press L to read logs");
-            Console.WriteLine("Press Q to quit");
+            Console.WriteLine("Put L to read logs");
+            Console.WriteLine("Put Q to quit");
             return Console.ReadLine();
         }
 
@@ -175,10 +168,9 @@ namespace PingProject
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
                 //TODO: WPISAĆ POPRAWNE HASŁO
-                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "Tajne_HASŁO"),
+                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "$ECRET_PASSWORD_TO_CHANGE"),
                 EnableSsl = true,
                 Timeout = 5000,
-
             };
             
             try
@@ -260,23 +252,11 @@ namespace PingProject
 
         public static void PingCarlineDevices()
         {
-            List<Device> DL = new List<Device>();
-            DL.Add(new Device("192.168.1.14", "PLOTER HP"));
-            DL.Add(new Device("192.168.1.4", "DRUKARKA KONIKA"));
-            //DL.Add(new Device("127.0.0.1", "PĘTLA LOKALNA"));
-            
-
-            /*
-            DL.Add(new Device("127.0.0.1", "PĘTLA LOKALNA"));
-            DL.Add(new Device("192.168.1.13", "DRUKARKA OKI"));
-            */
-
-
+            List<Device> DL = LoadDeviceList();
             while(PingError(DL) == false)
             {
                 DL = PingDevices(DL);
-                Thread.Sleep(1800000);
-
+                Thread.Sleep(300000);
             }
             EmailLogs(DL);
 
@@ -312,7 +292,7 @@ namespace PingProject
                     logs += log.message + " - " + log.time.Hour.ToString() + ":" + log.time.Minute.ToString() + ":" + log.time.Second.ToString() + "\n" ;
                 }
             }
-            Email("LOGI CARLINE", logs);
+            Email("PingProject Logs", logs);
         }
         
             public static void PrintLogs(List<Device> DL)
