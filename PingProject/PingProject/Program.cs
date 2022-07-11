@@ -57,8 +57,8 @@ namespace PingProject
                     case "l" or "L":
                         PrintLogs(DeviceList);
                         continue;
-                    case "carline" or "CARLINE":
-                        PingCarlineDevices();
+                    case "automatic" or "AUTOMATIC":
+                        PingDevicesAutomatically();
                         continue;
 
                     case "testemail" or "TESTEMAIL":
@@ -86,9 +86,9 @@ namespace PingProject
             {
                 to_return = true;
                 Console.WriteLine(arg);
-                if (arg == "/carline" || arg == "/CARLINE")
+                if (arg == "/automatic" || arg == "/AUTOMATIC" || arg == "/carline" || arg == "/CARLINE")
                 {
-                    PingCarlineDevices();
+                    PingDevicesAutomatically();
                 }
                     
                 if (arg == "/t" || arg == "/T")
@@ -111,7 +111,7 @@ namespace PingProject
 
             Console.WriteLine("Put E to email logs");
             Console.WriteLine("Put TESTEMAIL to test email");
-            Console.WriteLine("Put CARLINE to load, constantly ping and email logs with error");
+            Console.WriteLine("Put AUTOMATIC to load, constantly ping and email logs with error");
 
             //Save and Load
             Console.WriteLine("Put save to save device list");
@@ -158,6 +158,20 @@ namespace PingProject
             return DL;
 
         }
+
+        public static ProgramSettings LoadProgramSettings()
+        {
+            //TODO: napisać funkcję która załaduje z pliku obiekt kilka lini wyżej jest podobna funkcja
+            ProgramSettings x = new ProgramSettings();
+            return x;
+
+        }
+
+        public static void SaveProgramSettings(ProgramSettings PS)
+        {
+            //TODO napisać funkcję która zapisze obiekt klasy program settings do pliku kilka lini wyżej jest podobna funkcja
+        }
+
         
         public static void Email(string Title, string Message)
         {
@@ -250,7 +264,7 @@ namespace PingProject
             return DL;
         }
 
-        public static void PingCarlineDevices()
+        public static void PingDevicesAutomatically()
         {
             List<Device> DL = LoadDeviceList();
             while(PingError(DL) == false)
