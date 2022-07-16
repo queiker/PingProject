@@ -9,8 +9,12 @@ namespace PingProject
 {
     class Program
     {
-        static void Main(string[] args)
+        
+
+        public static void Main(string[] args)
         {
+           
+
             //if CheckArgs false it mean that there was no arguments
             if (!CheckArgs(args))
             {
@@ -22,6 +26,8 @@ namespace PingProject
         {
             Console.WriteLine("==========================");
             List<Device> DeviceList = new List<Device>();
+            ProgramSettings programSettings;
+
             string key = "";
             while (key != "q" && key != "Q")
             {
@@ -46,11 +52,11 @@ namespace PingProject
                         DeviceList = DeleteDevice(DeviceList);
                         continue;
 
-                    case "save" or "SAVE":
+                    case "savedevicelist" or "SAVEDEVICELIST":
                         SaveDeviceList(DeviceList);
                         continue;
 
-                    case "load" or "LOAD":
+                    case "loaddevicelist" or "LOADDEVICELIST":
                         DeviceList = LoadDeviceList();
                         continue;
 
@@ -68,6 +74,21 @@ namespace PingProject
                     case "e" or "E":
                         EmailLogs(DeviceList);
                         continue;
+                    
+                    case "loadsettings" or "LOADSETTINGS":
+                        programSettings = LoadProgramSettings();
+                            
+                            continue;
+                    
+                    case "savesettings" or "SAVESETTINGS":
+                        //todo: napisać savesettings
+
+
+                        continue;
+
+
+
+
                     case "":
                         //do nothing
                         continue;
@@ -114,8 +135,12 @@ namespace PingProject
             Console.WriteLine("Put AUTOMATIC to load, constantly ping and email logs with error");
 
             //Save and Load
-            Console.WriteLine("Put save to save device list");
-            Console.WriteLine("Put load to load device list");
+            Console.WriteLine("Put savedevicelist to save device list");
+            Console.WriteLine("Put loaddevicelist to load device list");
+            
+            //save and load settings
+            Console.WriteLine("Put savesettings to save program settings");
+            Console.WriteLine("Put loadsettings to load program settings");
             
             Console.WriteLine("Put L to read logs");
             Console.WriteLine("Put Q to quit");
@@ -161,10 +186,45 @@ namespace PingProject
 
         public static ProgramSettings LoadProgramSettings()
         {
-            //TODO: napisać funkcję która załaduje z pliku obiekt kilka lini wyżej jest podobna funkcja
-            ProgramSettings x = new ProgramSettings();
-            return x;
 
+            string folder = System.IO.Directory.GetCurrentDirectory();
+            string path = @"\ProgramSettings.json";
+            string str_device = "";
+            ProgramSettings programSettings;
+
+            
+
+                try
+                {
+                using (StreamReader reader = new StreamReader(folder + path))
+                    while (true)
+                    {
+                        string line = reader.ReadLine();
+                        if (line == null)
+                        {
+                            break;
+                        }
+                        str_device += line;
+                    }
+                    programSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<ProgramSettings>(str_device);
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine("Error reading from {0}. Message = {1}", path, e.Message);
+                }
+                finally
+                {
+                /*
+                    if (reader != null)
+                    {
+                        reader.Close();
+                    }
+                */
+
+                    programSettings = new ProgramSettings();
+                }
+
+            return programSettings;
         }
 
         public static void SaveProgramSettings(ProgramSettings PS)

@@ -17,4 +17,4 @@ C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Release\net5.0\r
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Release\net5.0\PingProject.pdb
 C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Release\net5.0\PingProject.genruntimeconfig.cache
 C:\Users\queiker\source\PingProject\PingProject\PingProject\bin\Release\net5.0\Newtonsoft.Json.dll
-C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Release\net5.0\PingProject.csprojAssemblyReference.cache
+C:\Users\queiker\source\PingProject\PingProject\PingProject\obj\Release\net5.0\PingProject.csproj.AssemblyReference.cache
