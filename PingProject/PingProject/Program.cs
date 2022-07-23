@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Mail;
-using System.Net;
 using System.Threading;
 
 namespace PingProject
@@ -26,7 +24,7 @@ namespace PingProject
         {
             Console.WriteLine("==========================");
             List<Device> DeviceList = new List<Device>();
-            ProgramSettings programSettings;
+            ProgramSettings programSettings = new ProgramSettings();
 
             string key = "";
             while (key != "q" && key != "Q")
@@ -68,11 +66,14 @@ namespace PingProject
                         continue;
 
                     case "testemail" or "TESTEMAIL":
-                        Email("PingProject LOG", "Test email Log OK");
+                        
+                        programSettings.Email("PingProject LOG", "Test email Log OK");
+
+
                         continue;
 
                     case "e" or "E":
-                        EmailLogs(DeviceList);
+                        EmailLogs(DeviceList, programSettings);
                         continue;
                     
                     case "loadsettings" or "LOADSETTINGS":
@@ -233,30 +234,7 @@ namespace PingProject
         }
 
         
-        public static void Email(string Title, string Message)
-        {
-            /*
-             * Żeby wysyłanie email działało na koncie gmail.com musi być wyłączona weryfikacja dwuetapowa
-             * i włączone "dostęp mniej bezpiecznych aplikacji" 
-             */
-            var client = new SmtpClient("smtp.gmail.com", 587)
-            {
-                //TODO: WPISAĆ POPRAWNE HASŁO
-                Credentials = new NetworkCredential("tradecomp.pl@gmail.com", "$ECRET_PASSWORD_TO_CHANGE"),
-                EnableSsl = true,
-                Timeout = 5000,
-            };
-            
-            try
-            {
-                client.Send("tradecomp.pl@gmail.com", "tradecomp.pl@gmail.com", Title, Message);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            Console.WriteLine("Logs was sended at email");
-        }
+        
         public static void SaveLogsToFile()
         {
             throw new NotImplementedException();
@@ -326,13 +304,18 @@ namespace PingProject
 
         public static void PingDevicesAutomatically()
         {
-            List<Device> DL = LoadDeviceList();
-            while(PingError(DL) == false)
+            ProgramSettings ps = new ProgramSettings();
+            ps = LoadProgramSettings();
+
+            List<Device> dl = LoadDeviceList();
+            while(PingError(dl) == false)
             {
-                DL = PingDevices(DL);
-                Thread.Sleep(300000);
+                dl = PingDevices(dl);
+                Thread.Sleep(ps.automatic_ping_delay);
             }
-            EmailLogs(DL);
+            
+            EmailLogs(dl,ps);
+            
 
         }
 
@@ -354,7 +337,7 @@ namespace PingProject
             return ToReturn;
         }
 
-        public static void EmailLogs(List<Device> DL)
+        public static void EmailLogs(List<Device> DL, ProgramSettings ps)
         {
             string logs = "";
             foreach (Device device in DL)
@@ -366,7 +349,9 @@ namespace PingProject
                     logs += log.message + " - " + log.time.Hour.ToString() + ":" + log.time.Minute.ToString() + ":" + log.time.Second.ToString() + "\n" ;
                 }
             }
-            Email("PingProject Logs", logs);
+            ps.Email("PingProject Logs", logs);
+            
+            
         }
         
             public static void PrintLogs(List<Device> DL)

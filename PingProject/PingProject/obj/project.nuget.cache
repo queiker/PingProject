@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "C3XqVygGi4GrPHfHyAAfwgIIKTJn8sYq6XE/gsxOB291i3HM69E9FrjYJmV46eMWSxFyR9xfPWqpshRXlmzesQ==",
+  "dgSpecHash": "wB5wOGQ9VL+RfgEbLqREBAuwWOmabxshrJQwAaC9hAjNZF21U0n9oUUJZA+9BaXtqrotD/qtehrd/Kr5Rd7FDA==",
   "success": true,
   "projectFilePath": "C:\\Users\\queiker\\source\\PingProject\\PingProject\\PingProject\\PingProject.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,11 @@
     "C:\\Users\\queiker\\.nuget\\packages\\nest\\7.17.0\\nest.7.17.0.nupkg.sha512",
     "C:\\Users\\queiker\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\queiker\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
-    "C:\\Users\\queiker\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512"
+    "C:\\Users\\queiker\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\queiker\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }
