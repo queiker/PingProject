@@ -1,7 +1,8 @@
 ﻿using System;
-
 using System.Net.Mail;
 using System.Net;
+using System.IO;
+
 
 
 namespace PingProject
@@ -58,6 +59,54 @@ namespace PingProject
                 Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Logs was sended at email");
+        }
+
+
+
+
+        public ProgramSettings LoadProgramSettings()
+        {
+            string folder = System.IO.Directory.GetCurrentDirectory();
+            string path = @"\ProgramSettings.json";
+            string str_device = "";
+            ProgramSettings programSettings;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(folder + path))
+                    while (true)
+                    {
+                        string line = reader.ReadLine();
+                        if (line == null)
+                        {
+                            break;
+                        }
+                        str_device += line;
+                    }
+                programSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<ProgramSettings>(str_device);
+            }
+            catch (System.IO.IOException e)
+            {
+                Console.WriteLine("Error reading from {0}. Message = {1}", path, e.Message);
+            }
+            finally
+            {
+                programSettings = new ProgramSettings();
+            }
+
+            return programSettings;
+        }
+
+        public void SaveProgramSettings(ProgramSettings PS)
+        {
+            string str_device = Newtonsoft.Json.JsonConvert.SerializeObject(PS);
+            string folder = System.IO.Directory.GetCurrentDirectory();
+            string path = @"\ProgramSettings.json";
+            using (StreamWriter file = new StreamWriter(folder + path))
+            {
+                file.Write(str_device);
+            }
+
         }
 
 

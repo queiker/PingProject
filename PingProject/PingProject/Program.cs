@@ -77,13 +77,12 @@ namespace PingProject
                         continue;
                     
                     case "loadsettings" or "LOADSETTINGS":
-                        programSettings = LoadProgramSettings();
+                        programSettings = programSettings.LoadProgramSettings();
                             
-                            continue;
+                        continue;
                     
                     case "savesettings" or "SAVESETTINGS":
-                        //todo: napisać savesettings
-
+                        programSettings.SaveProgramSettings(programSettings);
 
                         continue;
 
@@ -152,7 +151,6 @@ namespace PingProject
         {
             string str_device = Newtonsoft.Json.JsonConvert.SerializeObject(DL);
             string folder = System.IO.Directory.GetCurrentDirectory();
-            Console.WriteLine(str_device);
             string path = @"\DevicesList.json";
             using (StreamWriter file = new StreamWriter(folder + path))
             {
@@ -185,56 +183,13 @@ namespace PingProject
 
         }
 
-        public static ProgramSettings LoadProgramSettings()
-        {
 
-            string folder = System.IO.Directory.GetCurrentDirectory();
-            string path = @"\ProgramSettings.json";
-            string str_device = "";
-            ProgramSettings programSettings;
 
-            
 
-                try
-                {
-                using (StreamReader reader = new StreamReader(folder + path))
-                    while (true)
-                    {
-                        string line = reader.ReadLine();
-                        if (line == null)
-                        {
-                            break;
-                        }
-                        str_device += line;
-                    }
-                    programSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<ProgramSettings>(str_device);
-                }
-                catch (System.IO.IOException e)
-                {
-                    Console.WriteLine("Error reading from {0}. Message = {1}", path, e.Message);
-                }
-                finally
-                {
-                /*
-                    if (reader != null)
-                    {
-                        reader.Close();
-                    }
-                */
 
-                    programSettings = new ProgramSettings();
-                }
 
-            return programSettings;
-        }
 
-        public static void SaveProgramSettings(ProgramSettings PS)
-        {
-            //TODO napisać funkcję która zapisze obiekt klasy program settings do pliku kilka lini wyżej jest podobna funkcja
-        }
 
-        
-        
         public static void SaveLogsToFile()
         {
             throw new NotImplementedException();
@@ -305,7 +260,7 @@ namespace PingProject
         public static void PingDevicesAutomatically()
         {
             ProgramSettings ps = new ProgramSettings();
-            ps = LoadProgramSettings();
+            ps = ps.LoadProgramSettings();
 
             List<Device> dl = LoadDeviceList();
             while(PingError(dl) == false)
